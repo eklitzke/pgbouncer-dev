@@ -176,6 +176,7 @@ int pga_cmp_addr(const PgAddr *a, const PgAddr *b);
  */
 struct PgStats {
 	uint64_t request_count;
+	uint64_t waiting_count;
 	uint64_t server_bytes;
 	uint64_t client_bytes;
 	usec_t query_time;	/* total req time in us */
