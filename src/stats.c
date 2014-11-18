@@ -63,11 +63,11 @@ static void write_stats(PktBuf *buf, PgStats *stat, PgStats *old, char *dbname)
 	PgStats avg;
 	calc_average(&avg, stat, old);
 	pktbuf_write_DataRow(buf, "sqqqqqqqqqq", dbname,
-			     stat->request_count, stat->request_count,
+			     stat->request_count, stat->waiting_count,
 			     stat->client_bytes, stat->server_bytes,
 			     stat->query_time,
 			     avg.request_count, avg.waiting_count,
-			     avg.client_bytes, avg.server_byts,
+			     avg.client_bytes, avg.server_bytes,
 			     avg.query_time);
 }
 
@@ -198,10 +198,10 @@ static void refresh_stats(int s, short flags, void *arg)
 	calc_average(&avg, &cur_total, &old_total);
 	/* send totals to logfile */
 	log_info("Stats: %" PRIu64 " req/s,"
-		 " waiting %" PRIu64 " req/s"
+		 " waiting %" PRIu64 " req/s,"
 		 " in %" PRIu64 " b/s,"
 		 " out %" PRIu64 " b/s,"
-		 "query %" PRIu64 " us,",
+		 " query %" PRIu64 " us",
 		 avg.request_count, avg.waiting_count,
 		 avg.client_bytes, avg.server_bytes,
 		 avg.query_time);
